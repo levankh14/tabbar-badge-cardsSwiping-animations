@@ -5,7 +5,7 @@ import { Text, View } from "@/components/Themed";
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <Text>Main Screen</Text>
+      <Text style={styles.title}>Main Screen</Text>
     </View>
   );
 }
@@ -19,10 +19,5 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 });
