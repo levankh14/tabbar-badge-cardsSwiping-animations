@@ -1,6 +1,11 @@
+import CustomTabBar from "@/components/tabbar/CustomTabBar";
+import { Octicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
+import { MessageSquare, Star } from "lucide-react-native";
 import React from "react";
+
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -11,19 +16,48 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{}}>
+    <Tabs
+      tabBar={(props: BottomTabBarProps) => <CustomTabBar props={props} />}
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Home",
+          tabBarIcon: ({ color, size, focused }) =>
+            !focused ? (
+              <Octicons name="home" size={24} color={color} />
+            ) : (
+              <Octicons name="home-fill" size={24} color="black" />
+            ),
         }}
       />
       <Tabs.Screen
         name="two"
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Favorites",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Star
+              color={color}
+              size={26}
+              fill={focused ? color : "transparent"}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="three"
+        options={{
+          title: "Messages",
+          tabBarIcon: ({ color, size, focused }) => (
+            <MessageSquare
+              size={26}
+              color={color}
+              fill={focused ? color : "transparent"}
+            />
+          ),
         }}
       />
     </Tabs>
