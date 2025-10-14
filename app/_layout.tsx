@@ -21,6 +21,10 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    "FiraCode-Regular": require("../assets/fonts/FiraCode-Regular.ttf"),
+    "SF-Pro-Rounded-Bold": require("../assets/fonts/SF-Pro-Rounded-Bold.otf"),
+    "Goldman-Bold": require("../assets/fonts/Goldman-Bold.ttf"),
+    "Goldman-Regular": require("../assets/fonts/Goldman-Regular.ttf"),
     ...FontAwesome.font,
   });
 
