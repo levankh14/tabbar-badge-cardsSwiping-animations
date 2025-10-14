@@ -1,9 +1,25 @@
-import { StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
-import { TEXT_COLOR } from "@/constants/constants";
+import BadgeItem from "@/components/BadgeItem";
+import {
+  BACKGROUND_TRANSLATE_Y,
+  BADGE_HEIGHT,
+  BADGE_WIDTH,
+  GREEN,
+  INACTIVE_ROTATION,
+  TEXT_COLOR,
+} from "@/constants/constants";
 import { Currency } from "@/types/types";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { CirclePoundSterling } from "lucide-react-native";
+import { useIsFocused } from "@react-navigation/native";
+import { Bell, CirclePoundSterling } from "lucide-react-native";
+import { useState } from "react";
+import Animated, {
+  FadeInLeft,
+  FadeInRight,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ICON_SIZE = {
@@ -19,7 +35,7 @@ export const currencies: Currency[] = [
     icon: (
       <FontAwesome5 name="bitcoin" size={ICON_SIZE.bitcoin} color="#000000" />
     ),
-    color: "#bdf14d",
+    color: GREEN,
     textColor: "black",
   },
   {
@@ -41,9 +57,50 @@ export const currencies: Currency[] = [
 ];
 
 export default function TabOneScreen() {
+  const [activeCurrencyIndex, setActiveCurrencyIndex] = useState(0);
+
+  const isFocused = useIsFocused();
+
+  const handleCurrencyPress = () => {
+    setActiveCurrencyIndex((prev) => (prev + 1) % currencies.length);
+  };
+
+  const stylesReanimated = useAnimatedStyle(() => {
+    return {
+      backgroundColor: withTiming(
+        currencies[activeCurrencyIndex === 2 ? 0 : activeCurrencyIndex + 1]
+          .color,
+        {
+          duration: 200,
+        }
+      ),
+    };
+  });
+  if (!isFocused) return null;
   return (
     <SafeAreaView edges={["top", "left", "right"]} style={styles.container}>
-      <Text style={styles.title}>Main Screen</Text>
+      <Animated.View
+        entering={FadeInRight.springify()}
+        exiting={FadeInLeft.springify()}
+        style={styles.header}
+      >
+        <Pressable
+          style={styles.currencyContainer}
+          onPress={handleCurrencyPress}
+        >
+          <Animated.View style={[styles.placeHolderBg, stylesReanimated]} />
+          {currencies.map((item, index) => (
+            <BadgeItem
+              key={item.currency}
+              item={item}
+              activeCurrencyIndex={activeCurrencyIndex}
+              index={index}
+            />
+          ))}
+        </Pressable>
+
+        <Bell color={"gray"} />
+      </Animated.View>
     </SafeAreaView>
   );
 }
@@ -58,5 +115,33 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: TEXT_COLOR,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    gap: 10,
+  },
+  currencyContainer: {
+    width: BADGE_WIDTH,
+    height: BADGE_HEIGHT,
+    position: "relative",
+  },
+  placeHolderBg: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    backgroundColor: GREEN,
+    borderRadius: 100,
+    transformOrigin: "left",
+    transform: [
+      {
+        rotateZ: INACTIVE_ROTATION,
+      },
+      { translateY: BACKGROUND_TRANSLATE_Y },
+    ],
   },
 });
