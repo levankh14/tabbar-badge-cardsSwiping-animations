@@ -1,9 +1,23 @@
-import { StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
-import { TEXT_COLOR } from "@/constants/constants";
+import BadgeItem from "@/components/BadgeItem";
+import {
+  BACKGROUND_TRANSLATE_Y,
+  BADGE_HEIGHT,
+  BADGE_WIDTH,
+  INACTIVE_ROTATION,
+  TEXT_COLOR,
+} from "@/constants/constants";
 import { Currency } from "@/types/types";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { CirclePoundSterling } from "lucide-react-native";
+import { Bell, CirclePoundSterling } from "lucide-react-native";
+import { useState } from "react";
+import Animated, {
+  FadeInLeft,
+  FadeInRight,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ICON_SIZE = {
@@ -41,9 +55,43 @@ export const currencies: Currency[] = [
 ];
 
 export default function TabOneScreen() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handlePress = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % currencies.length);
+  };
+
+  const stylesReanimated = useAnimatedStyle(() => {
+    return {
+      backgroundColor: withTiming(
+        currencies[activeIndex === 2 ? 0 : activeIndex + 1].color,
+        { duration: 250 }
+      ),
+    };
+  });
+
   return (
     <SafeAreaView edges={["top", "left", "right"]} style={styles.container}>
-      <Text style={styles.title}>Main Screen</Text>
+      <Animated.View
+        entering={FadeInRight.springify()}
+        exiting={FadeInLeft.springify()}
+        style={styles.header}
+      >
+        <Pressable onPress={handlePress} style={styles.badgeContainer}>
+          <Animated.View style={[styles.placeholderBg, stylesReanimated]} />
+          {currencies.map((currency, index) => (
+            <BadgeItem
+              index={index}
+              value={currency.value}
+              activeIndex={activeIndex}
+              key={currency.currency}
+              icon={currency.icon}
+              color={currency.color}
+            />
+          ))}
+        </Pressable>
+        <Bell color={"gray"} />
+      </Animated.View>
     </SafeAreaView>
   );
 }
@@ -58,5 +106,30 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: TEXT_COLOR,
+  },
+  header: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    marginTop: 10,
+  },
+  badgeContainer: {
+    height: BADGE_HEIGHT,
+    width: BADGE_WIDTH,
+    position: "relative",
+  },
+  placeholderBg: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "red",
+    borderRadius: BADGE_HEIGHT / 2,
+    position: "absolute",
+    transformOrigin: "left",
+    transform: [
+      { rotateZ: INACTIVE_ROTATION },
+      { translateY: BACKGROUND_TRANSLATE_Y },
+    ],
   },
 });
