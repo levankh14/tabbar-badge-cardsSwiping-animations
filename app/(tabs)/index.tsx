@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 import { TEXT_COLOR } from "@/constants/constants";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={["top", "left", "right"]} style={styles.container}>
       <Text style={styles.title}>Main Screen</Text>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   title: {
     fontSize: 20,

@@ -6,7 +6,7 @@ import Animated, {
   FadeOutDown,
   useAnimatedStyle,
   useSharedValue,
-  withSpring
+  withSpring,
 } from "react-native-reanimated";
 
 type Props = {
