@@ -1,18 +1,10 @@
 import CustomTabBar from "@/components/tabbar/CustomTabBar";
 import { Octicons } from "@expo/vector-icons";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { MessageSquare, Star } from "lucide-react-native";
 import React from "react";
 
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
 
 export default function TabLayout() {
   return (
