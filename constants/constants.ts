@@ -19,6 +19,11 @@ export const BADGE_HEIGHT = 44;
 export const BADGE_WIDTH = 120;
 export const INACTIVE_ROTATION = "8deg";
 
+export const CARD_WIDTH = width - SPACING * 4;
+export const CARD_HEIGHT = CARD_WIDTH * 1.2;
+
+export const SPRING_CONFIG = { damping: 60, stiffness: 1000 };
+
 export const cardImages = [
   {
     uri: "https://plus.unsplash.com/premium_vector-1721145505642-e10ae9873721?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",

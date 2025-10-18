@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, View } from "react-native";
 
 import BadgeItem from "@/components/BadgeItem";
+import Cards from "@/components/Cards";
 import Footer from "@/components/Footer";
 import {
   BACKGROUND_TRANSLATE_Y,
@@ -13,6 +14,7 @@ import { Currency } from "@/types/types";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Bell, CirclePoundSterling } from "lucide-react-native";
 import { useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   FadeInLeft,
   FadeInRight,
@@ -72,6 +74,7 @@ export default function TabOneScreen() {
   });
 
   return (
+    <GestureHandlerRootView>
     <SafeAreaView edges={["top", "left", "right"]} style={styles.container}>
       <Animated.View
         entering={FadeInRight.springify()}
@@ -93,9 +96,12 @@ export default function TabOneScreen() {
         </Pressable>
         <Bell color={"gray"} />
       </Animated.View>
-      <View style={styles.cardsContainer}></View>
+      <View style={styles.cardsContainer}>
+        <Cards />
+      </View>
       <Footer />
     </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
 
