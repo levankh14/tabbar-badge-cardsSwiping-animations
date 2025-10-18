@@ -1,6 +1,7 @@
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 
 import BadgeItem from "@/components/BadgeItem";
+import Footer from "@/components/Footer";
 import {
   BACKGROUND_TRANSLATE_Y,
   BADGE_HEIGHT,
@@ -92,6 +93,8 @@ export default function TabOneScreen() {
         </Pressable>
         <Bell color={"gray"} />
       </Animated.View>
+      <View style={styles.cardsContainer}></View>
+      <Footer />
     </SafeAreaView>
   );
 }
@@ -101,6 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
+    gap: 24,
   },
   title: {
     fontSize: 20,
@@ -131,5 +135,9 @@ const styles = StyleSheet.create({
       { rotateZ: INACTIVE_ROTATION },
       { translateY: BACKGROUND_TRANSLATE_Y },
     ],
+  },
+  cardsContainer: {
+    width: "100%",
+    aspectRatio: 1 / 1.2,
   },
 });
